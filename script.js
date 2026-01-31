@@ -48,55 +48,101 @@ function startGame() {
 
 function renderScoreTable() {
     const container = document.getElementById('scoreTable');
-    let html = '<table>';
     
-    // Header
-    html += '<tr><th>Round</th>';
-    players.forEach(player => {
-        html += `<th colspan="3">${player}</th>`;
+    // Mobile view - card based
+    let mobileHtml = '<div class="mobile-view">';
+    
+    // Totals at top for mobile
+    mobileHtml += '<div class="totals-card">';
+    mobileHtml += '<h3>Current Scores</h3>';
+    players.forEach((player, pIndex) => {
+        const total = gameData[pIndex].rounds.reduce((sum, r) => sum + (r.score || 0), 0);
+        mobileHtml += `<div class="total-item"><span>${player}:</span> <strong>${total}</strong></div>`;
     });
-    html += '</tr>';
+    mobileHtml += '</div>';
     
-    html += '<tr><th></th>';
-    players.forEach(() => {
-        html += '<th>Bid</th><th>Tricks</th><th>Score</th>';
-    });
-    html += '</tr>';
-    
-    // Rounds
+    // Rounds as cards
     for (let round = 1; round <= currentRound; round++) {
-        html += `<tr><td class="round-header">Round ${round}</td>`;
+        mobileHtml += `<div class="round-card">`;
+        mobileHtml += `<div class="round-title">Round ${round}</div>`;
         
         players.forEach((player, pIndex) => {
             const roundData = gameData[pIndex].rounds[round - 1] || { bid: null, tricks: null, score: 0 };
             
-            // Bid input
-            html += `<td><input type="number" class="bid-input" min="0" max="${round}" 
+            mobileHtml += `<div class="player-row">`;
+            mobileHtml += `<div class="player-name">${player}</div>`;
+            mobileHtml += `<div class="player-inputs">`;
+            mobileHtml += `<div class="input-group">
+                <label>Bid</label>
+                <input type="number" class="bid-input" min="0" max="${round}" 
+                    value="${roundData.bid !== null ? roundData.bid : ''}" 
+                    onchange="setBid(${pIndex}, ${round}, this.value)">
+            </div>`;
+            mobileHtml += `<div class="input-group">
+                <label>Tricks</label>
+                <input type="number" class="trick-input" min="0" max="${round}" 
+                    value="${roundData.tricks !== null ? roundData.tricks : ''}" 
+                    onchange="setTricks(${pIndex}, ${round}, this.value)">
+            </div>`;
+            mobileHtml += `<div class="input-group">
+                <label>Score</label>
+                <div class="score-display">${roundData.score || 0}</div>
+            </div>`;
+            mobileHtml += `</div></div>`;
+        });
+        
+        mobileHtml += `</div>`;
+    }
+    mobileHtml += '</div>';
+    
+    // Desktop view - table based
+    let desktopHtml = '<div class="desktop-view"><table>';
+    
+    // Header
+    desktopHtml += '<tr><th>Round</th>';
+    players.forEach(player => {
+        desktopHtml += `<th colspan="3">${player}</th>`;
+    });
+    desktopHtml += '</tr>';
+    
+    desktopHtml += '<tr><th></th>';
+    players.forEach(() => {
+        desktopHtml += '<th>Bid</th><th>Tricks</th><th>Score</th>';
+    });
+    desktopHtml += '</tr>';
+    
+    // Rounds
+    for (let round = 1; round <= currentRound; round++) {
+        desktopHtml += `<tr><td class="round-header">Round ${round}</td>`;
+        
+        players.forEach((player, pIndex) => {
+            const roundData = gameData[pIndex].rounds[round - 1] || { bid: null, tricks: null, score: 0 };
+            
+            desktopHtml += `<td><input type="number" class="bid-input" min="0" max="${round}" 
                 value="${roundData.bid !== null ? roundData.bid : ''}" 
                 onchange="setBid(${pIndex}, ${round}, this.value)"></td>`;
             
-            // Tricks input
-            html += `<td><input type="number" class="trick-input" min="0" max="${round}" 
+            desktopHtml += `<td><input type="number" class="trick-input" min="0" max="${round}" 
                 value="${roundData.tricks !== null ? roundData.tricks : ''}" 
                 onchange="setTricks(${pIndex}, ${round}, this.value)"></td>`;
             
-            // Score
-            html += `<td class="score-cell">${roundData.score || 0}</td>`;
+            desktopHtml += `<td class="score-cell">${roundData.score || 0}</td>`;
         });
         
-        html += '</tr>';
+        desktopHtml += '</tr>';
     }
     
     // Total row
-    html += '<tr class="total-row"><td>Total</td>';
+    desktopHtml += '<tr class="total-row"><td>Total</td>';
     players.forEach((player, pIndex) => {
         const total = gameData[pIndex].rounds.reduce((sum, r) => sum + (r.score || 0), 0);
-        html += `<td colspan="3">${total}</td>`;
+        desktopHtml += `<td colspan="3">${total}</td>`;
     });
-    html += '</tr>';
+    desktopHtml += '</tr>';
     
-    html += '</table>';
-    container.innerHTML = html;
+    desktopHtml += '</table></div>';
+    
+    container.innerHTML = mobileHtml + desktopHtml;
 }
 
 function setBid(playerIndex, round, value) {
