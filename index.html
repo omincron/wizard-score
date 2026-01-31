@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wizard Score Keeper</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>🧙 Wizard Score Keeper</h1>
+    
+    <div id="setup" class="setup-section">
+        <h2>Setup Game</h2>
+        <div id="playersList"></div>
+        <div class="player-input">
+            <input type="text" id="playerName" placeholder="Enter player name">
+            <button onclick="addPlayer()">Add Player</button>
+        </div>
+        <button onclick="startGame()" style="margin-top: 20px; background-color: #28a745;">Start Game</button>
+    </div>
+    
+    <div id="game" class="game-section">
+        <div class="controls">
+            <button onclick="nextRound()">Next Round</button>
+            <button onclick="resetGame()" style="background-color: #dc3545;">Reset Game</button>
+        </div>
+        
+        <div id="scoreTable"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

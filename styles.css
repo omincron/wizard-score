@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.setup-section {
+    margin-bottom: 30px;
+}
+
+.player-input {
+    margin-bottom: 10px;
+}
+
+.player-input input {
+    padding: 8px;
+    margin-right: 10px;
+    width: 200px;
+}
+
+button {
+    padding: 8px 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.game-section {
+    display: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.round-header {
+    background-color: #e9ecef;
+    font-weight: bold;
+}
+
+.bid-input, .trick-input {
+    width: 60px;
+    padding: 4px;
+    text-align: center;
+}
+
+.score-cell {
+    font-weight: bold;
+}
+
+.total-row {
+    background-color: #fff3cd;
+    font-weight: bold;
+}
+
+.controls {
+    margin: 20px 0;
+}
+
+.controls button {
+    margin-right: 10px;
+}
